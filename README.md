@@ -1,7 +1,6 @@
 ```
 ### SyncBoard: Real-time Collaborative Whiteboard
 
-![SyncBoard in Action](link-to-your-actual-screenshot-or-gif.gif)
 SyncBoard is a dynamic and intuitive real-time collaborative whiteboard application designed for seamless online collaboration. Whether you're brainstorming ideas, teaching remotely, or just doodling with friends, SyncBoard provides a smooth, interactive canvas where multiple users can draw, chat, and interact simultaneously.
 
 ## ✨ Features
