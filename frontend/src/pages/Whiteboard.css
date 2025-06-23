@@ -1,0 +1,474 @@
+    /* components/Whiteboard.css */
+
+    .whiteboard-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* Take full height of parent */
+      width: 100%; /* Take full width of parent */
+      border-radius: 12px;
+      overflow: hidden; /* Ensures toolbar and canvas borders are rounded */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      background-color: #f8f9fa; /* Light background for the whole component */
+    }
+
+    .whiteboard-toolbar {
+      display: flex;
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+      gap: 8px;
+      padding: 10px;
+      background-color: #e9ecef; /* Lighter toolbar background */
+      border-bottom: 1px solid #dee2e6;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 10; /* Ensure toolbar is above canvas */
+    }
+
+    .toolbar-btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px; /* Rounded buttons */
+      background-color: #007bff; /* Primary blue for buttons */
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px; /* Ensure a minimum width */
+      height: 40px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .toolbar-btn:hover {
+      background-color: #0056b3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .toolbar-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .toolbar-btn.active {
+      background-color: #28a745; /* Green for active state */
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+      transform: none;
+    }
+
+    .toolbar-btn:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    /* Color picker dropdown */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      z-index: 11; /* Above other elements */
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      min-width: 150px; /* Adjust as needed for colors/shapes */
+      animation: fadeInScale 0.15s ease-out;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.active {
+      border-color: #007bff; /* Active color border */
+    }
+
+    /* Slider for brush size / font size */
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #f0f2f5;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .size-slider {
+      -webkit-appearance: none;
+      width: 100px;
+      height: 8px;
+      background: #ced4da;
+      outline: none;
+      border-radius: 4px;
+      transition: opacity 0.2s;
+    }
+
+    .size-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #007bff;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .size-label {
+      font-size: 0.9rem;
+      color: #343a40;
+      min-width: 35px; /* Ensure space for text */
+      text-align: right;
+    }
+
+    /* Shape options */
+    .shape-option {
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .shape-option:hover {
+      background-color: #e9ecef;
+      border-color: #007bff;
+    }
+
+    .shape-option.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    /* Save dropdown */
+    .save-dropdown button {
+      width: 100%;
+      padding: 10px;
+      text-align: left;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #343a40;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+
+    .save-dropdown button:hover {
+      background-color: #f0f2f5;
+    }
+
+    /* Canvas area */
+    .whiteboard-canvas-wrapper {
+      flex-grow: 1; /* Take all available space */
+      position: relative;
+      background-color: #ffffff; /* White canvas background */
+      border-radius: 0 0 12px 12px; /* Match container bottom radius */
+      overflow: hidden; /* Important to contain drawings */
+      display: flex; /* To center canvas if needed */
+      justify-content: center;
+      align-items: center;
+      touch-action: none; /* Prevent default touch scrolling/zoom on canvas */
+    }
+
+    .whiteboard-canvas {
+      display: block; /* Remove extra space below canvas */
+      width: 100%;
+      height: 100%;
+      cursor: crosshair; /* Indicative cursor for drawing */
+    }
+
+    .whiteboard-canvas.disabled-canvas {
+        cursor: not-allowed;
+    }
+
+    /* NEW: Text input overlay */
+    .whiteboard-text-input {
+      position: absolute;
+      min-width: 150px; /* Allow typing without breaking layout immediately */
+      min-height: 24px;
+      padding: 5px;
+      border: 1px solid #007bff; /* Blue border to indicate active input */
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+      outline: none;
+      resize: both; /* Allow user to resize the text area */
+      overflow: auto; /* Show scrollbars if text overflows */
+      z-index: 5; /* Above canvas, below toolbar/modals */
+      box-sizing: border-box; /* Include padding/border in width/height */
+      font-family: 'Inter', sans-serif;
+      line-height: 1.2;
+      border-radius: 4px; /* Slightly rounded corners */
+    }
+
+    /* Overlay when drawing is disabled */
+    .drawing-disabled-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark overlay */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      z-index: 4; /* Below text input, above canvas */
+      pointer-events: none; /* Allows clicks to pass through to the canvas if needed for other non-drawing interactions */
+    }
+
+
+    /* Clear Confirmation Modal */
+    .clear-confirm-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100; /* Ensure it's on top of everything */
+    }
+
+    .clear-confirm-modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: fadeInScale 0.2s ease-out;
+    }
+
+    .clear-confirm-modal-content h3 {
+      font-size: 1.8rem;
+      color: #dc3545; /* Red for warning */
+      margin-bottom: 15px;
+    }
+
+    .clear-confirm-modal-content p {
+      font-size: 1.1rem;
+      color: #495057;
+      margin-bottom: 25px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .modal-actions button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-actions .confirm-btn {
+      background-color: #dc3545; /* Red for confirm */
+      color: white;
+    }
+
+    .modal-actions .confirm-btn:hover {
+      background-color: #c82333;
+      transform: translateY(-1px);
+    }
+
+    .modal-actions .cancel-btn {
+      background-color: #6c757d; /* Grey for cancel */
+      color: white;
+    }
+
+    .modal-actions .cancel-btn:hover {
+      background-color: #5a6268;
+      transform: translateY(-1px);
+    }
+
+
+    /* General purpose animations */
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .whiteboard-toolbar {
+        padding: 8px;
+        gap: 6px;
+      }
+      .toolbar-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        min-width: 36px;
+        height: 36px;
+      }
+      .dropdown-menu {
+        padding: 6px;
+        min-width: 120px;
+      }
+      .color-option {
+        width: 28px;
+        height: 28px;
+      }
+      .size-slider {
+        width: 80px;
+      }
+      .size-label {
+        font-size: 0.8rem;
+      }
+      .shape-option, .save-dropdown button {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+      .clear-confirm-modal-content {
+        padding: 20px;
+      }
+      .clear-confirm-modal-content h3 {
+        font-size: 1.5rem;
+      }
+      .clear-confirm-modal-content p {
+        font-size: 1rem;
+      }
+      .modal-actions button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Optional: Dark mode adjustments */
+    @media (prefers-color-scheme: dark) {
+      .whiteboard-container {
+        background-color: #2b2e33;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+      .whiteboard-toolbar {
+        background-color: #3b3e44;
+        border-bottom-color: #4f535a;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      }
+      .toolbar-btn {
+        background-color: #6b5ce7; /* Purple for dark mode */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      }
+      .toolbar-btn:hover {
+        background-color: #8c7ae6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      }
+      .toolbar-btn.active {
+        background-color: #2e8b57; /* Darker green for active */
+      }
+      .dropdown-menu {
+        background-color: #3b3e44;
+        border-color: #4f535a;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      }
+      .color-option.active {
+        border-color: #a788ff; /* Lighter purple for active color */
+      }
+      .slider-container {
+        background-color: #4f535a;
+      }
+      .size-slider {
+        background: #6c757d;
+      }
+      .size-slider::-webkit-slider-thumb {
+        background: #a788ff;
+      }
+      .size-label {
+        color: #e0e0e0;
+      }
+      .shape-option {
+        background-color: #4f535a;
+        border-color: #6c757d;
+        color: #e0e0e0;
+      }
+      .shape-option:hover {
+        background-color: #6c757d;
+        border-color: #a788ff;
+      }
+      .shape-option.active {
+        background-color: #a788ff;
+        color: #ffffff;
+        border-color: #a788ff;
+      }
+      .save-dropdown button {
+        color: #e0e0e0;
+      }
+      .save-dropdown button:hover {
+        background-color: #4f535a;
+      }
+      .whiteboard-canvas-wrapper {
+        background-color: #22252a; /* Darker canvas background */
+      }
+      .clear-confirm-modal-content {
+        background-color: #3b3e44;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      }
+      .clear-confirm-modal-content h3 {
+        color: #ff6b6b; /* Lighter red */
+      }
+      .clear-confirm-modal-content p {
+        color: #b0b0b0;
+      }
+      .modal-actions .confirm-btn {
+        background-color: #ff6b6b;
+      }
+      .modal-actions .confirm-btn:hover {
+        background-color: #e05c5c;
+      }
+      .modal-actions .cancel-btn {
+        background-color: #888888;
+      }
+      .modal-actions .cancel-btn:hover {
+        background-color: #777777;
+      }
+
+      .whiteboard-text-input {
+        background: rgba(45, 45, 45, 0.95);
+        border: 1px solid #6b5ce7; /* Primary color border */
+        box-shadow: 0 2px 8px rgba(107, 92, 231, 0.3);
+      }
+    }
+    

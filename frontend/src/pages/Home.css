@@ -1,0 +1,381 @@
+/* Home.css */
+
+/* Root CSS Variables - Reusing design tokens for consistency */
+:root {
+    --primary-color: #6b5ce7;
+    --primary-gradient: linear-gradient(135deg, #6b5ce7 0%, #a788ff 100%);
+    --secondary-color: #4CAF50; /* Green */
+    --danger-color: #ff3b30; /* Red */
+    --background-dark: #1a1f25; /* Dark background for overall page/header */
+    --background-darker: #121417; /* Even darker */
+    --text-primary: #ffffff; /* White text for dark backgrounds */
+    --text-secondary: rgba(255, 255, 255, 0.7); /* Slightly transparent white text */
+    --text-tertiary: rgba(255, 255, 255, 0.5); /* More transparent white text */
+    --light-text: #333; /* Dark text for light backgrounds (e.g., tools panel) */
+    --light-text-secondary: #555;
+    --light-text-tertiary: #777;
+    --border-color: rgba(255, 255, 255, 0.1); /* For subtle borders in dark themes */
+    --overlay-light: rgba(255, 255, 255, 0.05); /* Light overlay for cards/inputs */
+    --overlay-medium: rgba(255, 255, 255, 0.1); /* Medium overlay for hover/active states */
+    --card-background: rgba(255, 255, 255, 0.03); /* Transparent background for cards */
+    --light-card-background: #ffffff; /* White background for main content areas */
+    --light-panel-background: #e3eaf2; /* Light background for tools panel */
+    --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.37); /* Stronger shadow for prominent elements */
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    --border-radius-lg: 20px;
+    --border-radius-md: 15px;
+    --border-radius-sm: 10px;
+    --transition-default: all 0.3s ease; /* Standard transition duration */
+}
+
+/* Base body and page container styles */
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--background-darker) 0%, var(--background-dark) 100%);
+    color: var(--text-primary);
+    padding: 2rem 1rem; /* Added padding for smaller screens */
+    box-sizing: border-box;
+}
+
+/* Greeting Message and Logout Button */
+.greeting-message {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10; /* Ensure it's above other content */
+}
+
+.logout-button .btn-secondary {
+    background-color: var(--danger-color); /* Red for logout */
+    color: var(--text-primary);
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-default);
+}
+
+.logout-button .btn-secondary:hover {
+    background-color: #e0322b; /* Darker red on hover */
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.content-container {
+    width: 100%;
+    max-width: 700px; /* Adjusted max-width for overall content */
+    background: var(--background-dark);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-strong);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 3.5rem; /* Larger title */
+    font-weight: 800;
+    color: var(--secondary-color); /* Green for SyncBoard branding */
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: -1px;
+}
+
+.actions-section {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px; /* Limit width of action buttons */
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-default);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: var(--text-primary);
+}
+
+.btn-primary:hover {
+    opacity: 0.95;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #8a2be2 0%, #d8bfd8 100%); /* A distinct gradient for join */
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    opacity: 0.95;
+}
+
+.footer {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(5px); /* Blurred background */
+}
+
+.modal-content {
+    background-color: var(--background-dark);
+    padding: 2.5rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-strong);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.modal-header h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: var(--transition-default);
+}
+
+.close-modal-btn:hover {
+    color: var(--danger-color);
+    transform: rotate(90deg);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: var(--background-darker);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: var(--transition-default);
+}
+
+.input-group input[type="text"]::placeholder,
+.input-group input[type="password"]::placeholder {
+    color: var(--text-tertiary);
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(107, 92, 231, 0.4);
+    background-color: var(--overlay-light);
+}
+
+.modal-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.error-message {
+    color: var(--danger-color);
+    background-color: rgba(255, 59, 48, 0.1);
+    padding: 0.75rem;
+    border-radius: var(--border-radius-sm);
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+    border: 1px solid var(--danger-color);
+}
+
+/* Custom Toggle Switch */
+.relative input[type="checkbox"].sr-only + .block {
+    background-color: #4a5568; /* Gray-700 from Tailwind */
+    transition: background-color 0.3s ease;
+}
+
+.relative input[type="checkbox"].sr-only:checked + .block {
+    background-color: #4c51bf; /* Blue-600 from Tailwind */
+}
+
+.relative .dot {
+    transition: transform 0.3s ease;
+}
+
+/* Animation for Copy Message */
+@keyframes fade-in-out {
+    0% { opacity: 0; transform: translate(-50%, 0px); }
+    10% { opacity: 1; transform: translate(-50%, -6px); }
+    90% { opacity: 1; transform: translate(-50%, -6px); }
+    100% { opacity: 0; transform: translate(-50%, 0px); }
+}
+
+.animate-fade-in-out {
+    animation: fade-in-out 1s forwards;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .home-page header {
+        padding: 1.5rem;
+    }
+
+    .home-page h1 {
+        font-size: 2.5rem;
+    }
+
+    .content-container {
+        padding: 1.5rem;
+    }
+
+    .actions-section {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn {
+        font-size: 1.1rem;
+        padding: 0.8rem 1.2rem;
+    }
+
+    .modal-content {
+        padding: 2rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-page {
+        padding: 1rem;
+    }
+
+    .home-page h1 {
+        font-size: 2rem;
+    }
+
+    .greeting-message {
+        font-size: 1.2rem;
+    }
+
+    .logout-button {
+        top: 10px;
+        right: 10px;
+    }
+
+    .logout-button .btn-secondary {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .content-container {
+        padding: 1rem;
+    }
+
+    .actions-section {
+        gap: 0.8rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+        padding: 0.7rem 1rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group input {
+        font-size: 1rem;
+    }
+}

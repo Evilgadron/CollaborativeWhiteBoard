@@ -1,0 +1,697 @@
+/* SessionPublic.css - No Tailwind, Full CSS */
+
+/* ===================================== */
+/* 1. Root CSS Variables (Design Tokens) */
+/* ===================================== */
+:root {
+    --primary-color: #6b5ce7;
+    --primary-gradient: linear-gradient(135deg, #6b5ce7 0%, #a788ff 100%);
+    --secondary-color: #4CAF50; /* Green */
+    --danger-color: #ff3b30; /* Red */
+    --background-dark: #1a1f25; /* Dark background for overall page/header */
+    --background-darker: #121417; /* Even darker */
+    --text-primary: #ffffff; /* White text for dark backgrounds */
+    --text-secondary: rgba(255, 255, 255, 0.7); /* Slightly transparent white text */
+    --text-tertiary: rgba(255, 255, 255, 0.5); /* More transparent white text */
+    --light-text: #333; /* Dark text for light backgrounds (e.g., panels) */
+    --light-text-secondary: #555;
+    --light-text-tertiary: #777;
+    --border-color: rgba(255, 255, 255, 0.1); /* For subtle borders in dark themes */
+    --overlay-light: rgba(255, 255, 255, 0.05); /* Light overlay for cards/inputs */
+    --overlay-medium: rgba(255, 255, 255, 0.1); /* Medium overlay for hover/active states */
+    --card-background: rgba(255, 255, 0.03); /* Transparent background for cards */
+    --light-card-background: #ffffff; /* White background for main content areas */
+    --light-panel-background: #e3eaf2; /* Light background for panels */
+    --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.37); /* Stronger shadow for prominent elements */
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    --border-radius-lg: 20px;
+    --border-radius-md: 15px;
+    --border-radius-sm: 10px;
+    --transition-default: all 0.3s ease; /* Standard transition duration */
+}
+
+/* ============================ */
+/* 2. Global Base Styles        */
+/* ============================ */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden; /* Prevent body scroll, let main-workspace handle it */
+}
+
+/* Root container for the entire session page */
+.session-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, var(--background-dark) 0%, #2b3238 100%);
+    color: var(--text-primary); /* Ensures overall text is white for dark background */
+}
+
+/* Common Panel Styles (applied to participants, whiteboard, chat) */
+.participants-panel,
+.whiteboard-area,
+.chat-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    background-color: var(--light-card-background); /* Default white background */
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Custom scrollbar for overflow areas */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--overlay-medium) var(--overlay-light);
+}
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--overlay-light);
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--overlay-medium);
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================ */
+/* 3. Header Styling            */
+/* ============================ */
+.session-header {
+    width: 100%;
+    padding: 1rem 1rem; /* Reduced padding for mobile */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    border-bottom-left-radius: 0.75rem; /* rounded-b-xl */
+    border-bottom-right-radius: 0.75rem; /* rounded-b-xl */
+    margin-left: 1rem; /* mx-4 */
+    margin-right: 1rem; /* mx-4 */
+    margin-top: 1rem; /* mt-4 */
+    display: flex;
+    flex-direction: column; /* Stacked on mobile by default */
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.session-header .header-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1; /* Allows it to take available space */
+}
+
+.session-header .session-title {
+    font-size: 1.25rem; /* text-xl, md:text-2xl */
+    font-weight: 700; /* font-bold */
+    color: #1f2937; /* text-gray-800 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px; /* max-w-[200px] sm:max-w-none handled by media query */
+    margin-bottom: 0.5rem;
+}
+
+.session-header .session-public-icon {
+    margin-left: 0.5rem; /* ml-2 */
+    color: #22c55e; /* text-green-500 */
+}
+
+.session-header .session-id-share {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem; /* text-sm */
+    color: #4b5563; /* text-gray-600 */
+    margin-top: 0.25rem; /* mt-1 */
+    position: relative;
+    flex-wrap: wrap; /* Allow wrapping on very small screens */
+}
+
+.session-header .session-id-label {
+    margin-right: 0.5rem; /* mr-2 */
+}
+
+.session-header .session-id-value {
+    font-family: monospace; /* font-mono */
+    color: #1d4ed8; /* text-blue-700 */
+}
+
+.session-header .share-button {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem; /* px-3 py-1 */
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: #ffffff; /* text-white */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-size: 0.75rem; /* text-xs */
+    transition: background-color 0.2s ease, transform 0.2s ease; /* transition duration-200 */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+    position: relative;
+    overflow: visible;
+    border: none;
+    cursor: pointer;
+    margin-left: 0.5rem; /* If needed for spacing with ID */
+}
+
+.session-header .share-button:hover {
+    background-color: #2563eb; /* hover:bg-blue-600 */
+}
+
+.session-header .share-icon {
+    margin-right: 0.25rem; /* mr-1 */
+}
+
+.session-header .share-text {
+    display: none; /* hidden */
+}
+
+.session-header .copy-message {
+    position: absolute;
+    top: -1.5rem; /* -top-6 */
+    left: 50%;
+    transform: translate(-50%, 0); /* -translate-x-1/2 */
+    background-color: #374151; /* bg-gray-700 */
+    color: #ffffff; /* text-white */
+    font-size: 0.75rem; /* text-xs */
+    padding: 0.25rem 0.5rem; /* px-2 py-1 */
+    border-radius: 0.25rem; /* rounded */
+    opacity: 0;
+    animation: fade-in-out 1s forwards; /* animate-fade-in-out */
+    pointer-events: none; /* Ensure it doesn't block clicks */
+}
+
+@keyframes fade-in-out {
+    0% { opacity: 0; transform: translate(-50%, 0); }
+    10% { opacity: 1; transform: translate(-50%, -0.25rem); } /* Small lift */
+    90% { opacity: 1; transform: translate(-50%, -0.25rem); }
+    100% { opacity: 0; transform: translate(-50%, 0); }
+}
+
+.session-header .app-title-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Take full width on stacked layout */
+    margin: 0.5rem 0; /* Space above/below on stacked layout */
+}
+
+.session-header .app-title {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 800; /* font-extrabold */
+    color: #2563eb; /* text-blue-600 */
+    letter-spacing: -0.05em; /* tracking-tight */
+    margin-left: -1500px;
+}
+
+.session-header .leave-session-btn {
+    padding: 0.75rem 1rem; /* px-4 py-2 */
+    background-color: #ef4444; /* bg-red-500 */
+    color: #ffffff; /* text-white */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* transition duration-300 ease-in-out */
+    border: none;
+    cursor: pointer;
+    width: 100%; /* w-full on smaller screens */
+    margin-top: 1rem; /* mt-4 on smaller screens */
+}
+
+.session-header .leave-session-btn:hover {
+    background-color: #dc2626; /* hover:bg-red-600 */
+    transform: scale(1.05); /* hover:scale-105 */
+}
+.session-header .leave-session-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5); /* focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 */
+}
+
+
+/* ============================ */
+/* 4. Main Workspace Layout     */
+/* ============================ */
+.main-workspace {
+    display: flex;
+    flex-direction: column; /* Default to column (stacked) on smaller screens */
+    flex: 1;
+    width: 100%;
+    padding: 1rem; /* Reduced padding for mobile */
+    box-sizing: border-box;
+    gap: 1rem; /* Reduced gap for mobile */
+    min-height: calc(100vh - 8rem); /* Adjust based on header height */
+    overflow: hidden; /* Prevent workspace scrolling unless content explicitly overflows */
+}
+
+/* ============================ */
+/* 5. Participants Panel        */
+/* ============================ */
+.participants-panel {
+    /* Styles from common-panel-styles */
+    background-color: #ffffff; /* bg-white */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+    flex-shrink: 0; /* Prevent it from shrinking too much */
+    margin-right: 0; /* Default no margin on smaller screens */
+    height: 20vh; /* Fixed height for stacked participants */
+    min-height: 150px;
+    padding: 1.5rem; /* p-4 */
+    color: #1f2937; /* text-gray-800 */
+}
+
+.participants-panel .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem; /* mb-4 */
+    padding-bottom: 0.5rem; /* pb-2 */
+    border-bottom: 1px solid #e5e7eb; /* border-b border-gray-200 */
+}
+
+.participants-panel .panel-title {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700; /* font-bold */
+    color: #1f2937; /* text-gray-800 */
+}
+
+.participants-panel .participants-toggle-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem; /* px-3 py-1 */
+    background-color: #e5e7eb; /* bg-gray-200 */
+    color: #374151; /* text-gray-700 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-size: 0.875rem; /* text-sm */
+    transition: background-color 0.2s ease; /* transition duration-200 */
+    border: none;
+    cursor: pointer;
+}
+
+.participants-panel .participants-toggle-btn:hover {
+    background-color: #d1d5db; /* hover:bg-gray-300 */
+}
+
+.participants-panel .participants-icon {
+    margin-right: 0.5rem; /* mr-2 */
+}
+
+.participants-panel .drawing-permission-info {
+    font-weight: 700; /* font-bold */
+    text-align: center; /* text-center */
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+.participants-panel .drawing-permission-info.permission-granted {
+    color: #22c55e; /* text-green-600 */
+}
+
+.participant-list-container {
+    flex: 1; /* flex-1 */
+    overflow-y: auto; /* overflow-y-auto */
+    padding-right: 0.5rem; /* pr-2 */
+}
+
+.participant-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.875rem; /* text-sm */
+}
+
+.participant-item {
+    padding-top: 0.5rem; /* py-2 */
+    padding-bottom: 0.5rem; /* py-2 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f3f4f6; /* border-b border-gray-100 */
+    color: #333333; /* Explicitly set color for visibility */
+}
+
+.participant-item:last-child {
+    border-bottom: none; /* last:border-b-0 */
+}
+
+.participant-item span {
+    color: #333333; /* Ensure the span text is dark in light mode */
+}
+
+/* ============================ */
+/* 6. Whiteboard Area Styling   */
+/* ============================ */
+.whiteboard-area {
+    /* Styles from common-panel-styles */
+    background-color: #ffffff; /* bg-white */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+    position: relative;
+    overflow: hidden;
+    flex: 1; /* flex-1 */
+    height: 65vh; /* Fixed height for stacked whiteboard */
+    min-height: 400px;
+    display: flex; /* to center content */
+    justify-content: center;
+    align-items: center;
+}
+
+/* ============================ */
+/* 7. Chat Panel Styling        */
+/* ============================ */
+.chat-panel {
+    /* Styles from common-panel-styles */
+    background-color: #ffffff; /* bg-white */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+    margin-left: 0; /* Default no margin on smaller screens */
+    height: 50vh; /* Fixed height for stacked chat */
+    min-height: 300px;
+    padding: 1.5rem; /* p-4 */
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-panel .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem; /* mb-4 */
+    padding-bottom: 0.5rem; /* pb-2 */
+    border-bottom: 1px solid #e5e7eb; /* border-b border-gray-200 */
+}
+
+.messages-container {
+    flex: 1; /* flex-1 */
+    overflow-y: auto; /* overflow-y-auto */
+    margin-bottom: 1rem; /* mb-4 */
+    padding-right: 0.5rem; /* pr-2 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual Chat Message Styles */
+.message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem; /* mb-2 */
+    padding: 0.5rem 0.75rem; /* p-2 */
+    border-radius: 0.5rem; /* rounded-lg */
+    max-width: 80%; /* max-w-[80%] */
+}
+
+.message-self {
+    background-color: #3b82f6; /* bg-blue-500 */
+    color: #ffffff; /* text-white */
+    align-self: flex-end; /* self-end */
+    align-items: flex-end; /* items-end */
+}
+
+.message-other {
+    background-color: #e5e7eb; /* bg-gray-200 */
+    color: #1f2937; /* text-gray-800 */
+    align-self: flex-start; /* self-start */
+    align-items: flex-start; /* items-start */
+}
+
+.message-sender {
+    font-weight: 600; /* font-semibold */
+    font-size: 0.75rem; /* text-xs */
+    margin-bottom: 0.25rem; /* mb-1 */
+}
+
+.message-text {
+    font-size: 0.875rem; /* text-sm */
+    word-break: break-word; /* break-words */
+}
+
+.message-time {
+    font-size: 0.75rem; /* text-xs */
+    margin-top: 0.25rem; /* mt-1 */
+}
+
+.message-self .message-time {
+    color: rgba(255, 255, 255, 0.7); /* text-blue-200 (approx) */
+}
+
+.message-other .message-time {
+    color: #6b7280; /* text-gray-500 */
+}
+
+/* Message Input Form */
+.message-form {
+    display: flex;
+    margin-top: auto; /* Push to bottom */
+}
+
+.message-input-field {
+    flex: 1; /* flex-1 */
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    border: 1px solid #d1d5db; /* border border-gray-300 */
+    border-top-left-radius: 0.5rem; /* rounded-l-lg */
+    border-bottom-left-radius: 0.5rem; /* rounded-l-lg */
+    font-size: 1rem;
+}
+
+.message-input-field:focus {
+    outline: none;
+    border-color: #60a5fa; /* focus:ring-blue-400 */
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5); /* focus:ring-2 */
+}
+
+.send-message-btn {
+    padding: 0.5rem 1rem; /* px-4 py-2 */
+    background-color: #2563eb; /* bg-blue-600 */
+    color: #ffffff; /* text-white */
+    border-top-right-radius: 0.5rem; /* rounded-r-lg */
+    border-bottom-right-radius: 0.5rem; /* rounded-r-lg */
+    transition: background-color 0.2s ease; /* transition duration-200 */
+    border: none;
+    cursor: pointer;
+}
+
+.send-message-btn:hover {
+    background-color: #1d4ed8; /* hover:bg-blue-700 */
+}
+
+.send-message-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* focus:ring-2 focus:ring-blue-500 */
+}
+
+/* ============================ */
+/* 8. Responsive Adjustments    */
+/* ============================ */
+/* For screens wider than 992px: horizontal 10/70/20 layout */
+@media (min-width: 993px) {
+    .session-header {
+        flex-direction: row; /* Horizontal for larger screens */
+        padding: 1rem 2rem; /* Restore original padding */
+    }
+    .session-header .header-info {
+        margin-right: auto; /* Push content to left */
+    }
+    .session-header .session-title {
+        max-width: none; /* Remove max-width restriction */
+    }
+    .session-header .session-id-share {
+        flex-wrap: nowrap; /* Prevent wrapping */
+    }
+    .session-header .share-text {
+        display: inline; /* Show "Share" text */
+    }
+    .session-header .app-title-container {
+        width: auto;
+        margin: 0;
+    }
+    .session-header .leave-session-btn {
+        width: auto;
+        margin-top: 0;
+    }
+
+    .main-workspace {
+        flex-direction: row; /* Horizontal layout */
+        padding: 1.5rem; /* Restore original padding */
+        gap: 1.5rem; /* Restore original gap */
+    }
+    .participants-panel {
+        width: 10%;
+        min-width: 120px;
+        max-width: 200px;
+        margin-right: 1.5rem; /* Restore original margin */
+        height: auto; /* Dynamic height */
+        min-height: auto;
+    }
+    .whiteboard-area {
+        width: 70%;
+        min-width: 700px;
+        height: auto; /* Dynamic height */
+        min-height: auto;
+    }
+    .chat-panel {
+        width: 20%;
+        min-width: 200px;
+        max-width: 300px;
+        margin-left: 1.5rem; /* Restore original margin */
+        height: auto; /* Dynamic height */
+        min-height: auto;
+    }
+}
+
+/* For screens smaller than 576px */
+@media (max-width: 575px) {
+    .session-header .session-title {
+        font-size: 1.125rem; /* Smaller font for title */
+    }
+    .session-header .app-title {
+        font-size: 1.5rem; /* Smaller app title */
+    }
+    .session-header .leave-session-btn {
+        padding: 0.625rem 0.875rem; /* Smaller button padding */
+    }
+    .main-workspace {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    .participants-panel, .whiteboard-area, .chat-panel {
+        padding: 1rem;
+    }
+    .participants-panel {
+        height: 18vh; /* Adjust height for very small screens */
+        min-height: 120px;
+    }
+    .whiteboard-area {
+        height: 60vh; /* Adjust height for very small screens */
+        min-height: 350px;
+    }
+    .chat-panel {
+        height: 45vh; /* Adjust height for very small screens */
+        min-height: 250px;
+    }
+}
+
+
+/* ============================ */
+/* 10. Dark Mode Enhancements   */
+/* ============================ */
+@media (prefers-color-scheme: dark) {
+    .session-page {
+        background: linear-gradient(135deg, #0f1114 0%, #1a1f25 100%);
+        color: var(--text-primary);
+    }
+    .session-header {
+        background-color: #0f1114;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .session-header .session-title {
+        color: var(--text-primary);
+    }
+    .session-header .session-id-value {
+        color: #88ddff;
+    }
+    .session-header .share-button {
+        background-color: #3f51b5; /* A darker blue for dark mode share button */
+        color: #e0e0e0;
+    }
+    .session-header .share-button:hover {
+        background-color: #303f9f;
+    }
+    .session-header .copy-message {
+        background-color: #555;
+        color: #eee;
+    }
+    .session-header .app-title {
+        color: #88ddff;
+    }
+    .session-header .leave-session-btn {
+        background-color: #c0392b; /* Darker red */
+    }
+    .session-header .leave-session-btn:hover {
+        background-color: #a52a22;
+    }
+
+    .participants-panel,
+    .whiteboard-area,
+    .chat-panel {
+        background-color: #1a1f25;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+    }
+
+    .participants-panel .panel-header h2 {
+        color: var(--text-primary);
+    }
+    .participants-panel .participants-toggle-btn {
+        background-color: #34495e;
+        color: #ecf0f1;
+    }
+    .participants-panel .participants-toggle-btn:hover {
+        background-color: #2c3e50;
+    }
+    .participants-panel .drawing-permission-info.permission-granted {
+        color: #69f0ae; /* Lighter green for dark mode */
+    }
+    .participants-panel .drawing-permission-info.permission-denied { /* Assuming you might use this */
+        color: #ff8a80; /* Lighter red for dark mode */
+    }
+    .participant-list-container ul li {
+        border-color: rgba(255, 255, 255, 0.08);
+        color: var(--text-secondary); /* Default text for li in dark mode */
+    }
+    .participant-list-container ul li span {
+        color: var(--text-primary); /* Ensures the span text is white in dark mode */
+    }
+
+
+    .whiteboard-area {
+        background-color: #f8f8f8; /* Keep whiteboard surface light for drawing clarity */
+    }
+
+    .chat-panel .chat-header h2 {
+        color: var(--text-primary);
+    }
+    .messages-container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.08);
+    }
+    .messages-container::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .messages-container::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+    .message-other {
+        background-color: #34495e; /* Darker background for other messages */
+        color: var(--text-primary);
+    }
+    .message-other .message-time {
+        color: #bdc3c7; /* Lighter time text in dark mode */
+    }
+    .message-input-field {
+        background-color: #2c3e50;
+        border-color: #3b5063;
+        color: var(--text-primary);
+    }
+    .message-input-field::placeholder {
+        color: var(--text-secondary);
+    }
+    .message-input-field:focus {
+        border-color: #88ddff;
+        box-shadow: 0 0 0 3px rgba(136, 221, 255, 0.5);
+    }
+    .send-message-btn {
+        background-color: #3b82f6; /* Adjust blue for dark mode */
+    }
+    .send-message-btn:hover {
+        background-color: #2563eb;
+    }
+}
