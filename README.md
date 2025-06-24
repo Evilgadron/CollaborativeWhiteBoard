@@ -22,7 +22,6 @@
 * 🔐 **Private Sessions with Owner Controls**
 
   * Manage individual drawing permissions.
-  * Approve or reject pending join requests.
   * Grant/Revoke all access in one click.
 
 * 📱 **Responsive Design**
