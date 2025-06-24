@@ -174,7 +174,7 @@ npm start
 ### 👑 Owner Controls (Private Sessions)
 
 * **Grant/Revoke** drawing access per participant
-* **Approve/Reject** join requests
+* **Can clear board** only owner can clear board.
 * **Manage All** access with one click
 
 ---
