@@ -1031,8 +1031,6 @@ socket.on('kick-participant', async ({ sessionId, targetUserId }) => {
 
 });
 
-const PORT = process.env.PORT || 5000;
-
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode.`);
     cleanupEmptySessions(); // Run cleanup on startup
