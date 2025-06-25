@@ -1022,9 +1022,3 @@ function generateSessionId() {
     return Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8);
 }
 
-const cors = require("cors");
-
-app.use(cors({
-  origin: process.env.CORS_ORIGIN,  // should match your Vercel domain
-  credentials: true
-}));
