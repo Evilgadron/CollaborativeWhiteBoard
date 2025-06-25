@@ -235,7 +235,6 @@ app.use(
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api/auth', require('./routes/auth'));
 
 // Connect to database
 connectDB();
@@ -289,11 +288,6 @@ const cancelSessionDeletion = (sessionId) => {
         console.log(`[CLEANUP] Cancelled pending deletion for session ${sessionId}`);
     }
 };
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-})
 
 // Helper to get detailed participant list with names for session-state
 async function getDetailedParticipants(sessionId) {
@@ -1030,6 +1024,8 @@ socket.on('kick-participant', async ({ sessionId, targetUserId }) => {
     });
 
 });
+
+const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode.`);
