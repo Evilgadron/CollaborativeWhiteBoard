@@ -1039,3 +1039,7 @@ function generateSessionId() {
     return Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8);
 }
 
+// ✅ Connect without deprecated options
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
