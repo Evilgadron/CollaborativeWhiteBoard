@@ -242,20 +242,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // --- Socket.io Setup ---
-const io = new Server(server, {
-  cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true
-  },
-  pingTimeout: 60000,
-  pingInterval: 25000
+const socketIoServer = new Server(server, {
+    cors: corsOptions,
+    pingTimeout: 60000, // Added for better disconnect detection
+    pingInterval: 25000  // Added for better disconnect detection
 });
-
-// Your socket event handlers here
-io.on('connection', (socket) => {
-  console.log('User connected via Socket.IO');
-});
-
 
 // Store active sessions data in memory for real-time operations
 // Key: sessionId, Value: { name, host, participants: Set<userId>, whiteboardStrokes: [], messages: [], polls: [], drawingPermissions: {}, isPrivate: boolean, sessionKey: string }
