@@ -18,25 +18,6 @@ dotenv.config();
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second
 
-// NOTE: You MUST update your Session model (./models/Session.js)
-// to include 'isPrivate: { type: Boolean, default: false }'
-// and 'sessionKey: { type: String, unique: true, sparse: true }' fields.
-// Example:
-/*
-const sessionSchema = new mongoose.Schema({
-    sessionId: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    host: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    whiteboardStrokes: { type: Array, default: [] },
-    messages: { type: Array, default: [] },
-    polls: { type: Array, default: [] },
-    drawingPermissions: { type: Object, default: {} },
-    isPrivate: { type: Boolean, default: false }, // ADD THIS LINE
-    sessionKey: { type: String, unique: true, sparse: true }, // ADD THIS LINE (sparse for non-private sessions)
-}, { timestamps: true });
-*/
-
 async function createOrUpdateMongoSession(sessionId, sessionData, hostUserId) {
     let retries = 0;
     while (retries < MAX_RETRIES) {
@@ -299,9 +280,7 @@ async function getDetailedParticipants(sessionId) {
     if (!sessionDoc || !sessionDoc.participants || sessionDoc.participants.length === 0) {
         return [];
     }
-    // `mongoSession.participants` is already populated by `getMongoSession`
-    // Ensure that participants are indeed Mongoose documents and have a 'name' property.
-    // If they are just IDs, you'd need to fetch them here.
+
     return sessionDoc.participants.map(p => ({
         id: p._id.toString(),
         name: p.name, // Assuming 'name' is populated
@@ -1042,3 +1021,10 @@ server.listen(PORT, () => {
 function generateSessionId() {
     return Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8);
 }
+
+const cors = require("cors");
+
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,  // should match your Vercel domain
+  credentials: true
+}));
