@@ -212,7 +212,7 @@ const corsOptions = {
 };
 
 app.use(cors({
-  origin: 'https://collaborative-white-board-rose.vercel.app',
+  origin: 'https://collaborative-white-board-git-main-gaddron07s-projects.vercel.app', // allow your frontend
   credentials: true
 }));
 
