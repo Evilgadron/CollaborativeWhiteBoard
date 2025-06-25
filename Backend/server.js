@@ -6,7 +6,6 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const fs = require('fs');
-const connectDB = require('./config/db');
 const session = require('express-session');
 const passport = require('./config/passport'); // Assuming this path is correct
 const connectDB = require('./config/db');     // Assuming this path is correct
@@ -1041,7 +1040,5 @@ function generateSessionId() {
     return Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8);
 }
 
-// ✅ Connect without deprecated options
-const connectDB = require('./config/db');
 connectDB();
 
