@@ -196,7 +196,8 @@ app.use(express.urlencoded({ extended: false }));
 // CORS configuration
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://collaborative-white-board-rose.vercel.app'
+  'https://collaborative-white-board-rose.vercel.app',
+  'https://collaborative-white-board-git-main-gaddron07s-projects.vercel.app'
 ];
 
 const corsOptions = {
@@ -212,15 +213,10 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-app.use(cors({
-  origin: 'https://collaborative-white-board-git-main-gaddron07s-projects.vercel.app', // allow your frontend
-  credentials: true
-}));
-
-app.use(express.json());
-
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
+app.use(express.json());
+
 
 // Session middleware (for Google OAuth)
 app.use(
