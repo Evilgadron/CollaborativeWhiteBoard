@@ -6,12 +6,13 @@ const connectDB = async () => {
   try {
     console.log("🔄 Connecting to MongoDB...");
 
-    const conn = await mongoose.connect(MONGO_URI);  // 🛠️ FIX: store result in 'conn'
+    mongoose.connect(MONGO_URI);
 
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);  // ✅ now works
+
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`❌ Error: ${error.message}`);
-    process.exit(1);
+    process.exit(1); // Exit process with failure
   }
 };
 
