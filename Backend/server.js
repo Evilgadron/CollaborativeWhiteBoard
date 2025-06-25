@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const fs = require('fs');
+const connectDB = require('./config/db');
 const session = require('express-session');
 const passport = require('./config/passport'); // Assuming this path is correct
 const connectDB = require('./config/db');     // Assuming this path is correct
@@ -1040,6 +1042,6 @@ function generateSessionId() {
 }
 
 // ✅ Connect without deprecated options
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+const connectDB = require('./config/db');
+connectDB();
+
