@@ -12,6 +12,7 @@ const connectDB = require('./config/db');     // Assuming this path is correct
 const Session = require('./models/Session');  // Assuming this path is correct
 const User = require('./models/User');        // Assuming you have a User model for user details
 
+
 // Load env vars
 require('dotenv').config();
 
@@ -208,14 +209,14 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 };
 
+
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-app.use(express.json());
+app.options('*', cors(corsOptions)); // for preflight
+app.use(express.json()); // AFTER CORS
+
 
 
 // Session middleware (for Google OAuth)
@@ -234,6 +235,7 @@ app.use(
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/api/auth', require('./routes/auth'));
 
 // Connect to database
 connectDB();
@@ -287,6 +289,11 @@ const cancelSessionDeletion = (sessionId) => {
         console.log(`[CLEANUP] Cancelled pending deletion for session ${sessionId}`);
     }
 };
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+})
 
 // Helper to get detailed participant list with names for session-state
 async function getDetailedParticipants(sessionId) {
@@ -1036,5 +1043,4 @@ function generateSessionId() {
     return Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8);
 }
 
-connectDB();
 
